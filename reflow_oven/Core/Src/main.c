@@ -124,10 +124,16 @@ int main(void)
 //		  HAL_UART_Transmit(&huart1, test_string, sizeof(test_string), 100);
 //	  }
 
-	  temp=Max6675_Read_Temp();
-	  sprintf(data_print,"T=%0.2fC  ",temp);
-	  HAL_UART_Transmit(&huart1, data_print, sizeof(data_print), 100);
+//	  temp=Max6675_Read_Temp();
+//	  sprintf(data_print,"T=%0.2fC  ",temp);
+//	  HAL_UART_Transmit(&huart1, data_print, sizeof(data_print), 100);
 //	  HAL_Delay(1000);
+
+	  float t = Max6675_Read_Temp();
+	  int len = snprintf((char*)data_print, sizeof(data_print), "T=%0.2f °C\r\n", t);
+	  HAL_UART_Transmit(&huart1, data_print, len, HAL_MAX_DELAY);
+
+	  HAL_Delay(1000);  // >220 ms to let the chip convert again
 
   }
   /* USER CODE END 3 */
@@ -189,7 +195,7 @@ static void MX_SPI1_Init(void)
   /* SPI1 parameter configuration*/
   hspi1.Instance = SPI1;
   hspi1.Init.Mode = SPI_MODE_MASTER;
-  hspi1.Init.Direction = SPI_DIRECTION_2LINES_RXONLY;
+  hspi1.Init.Direction = SPI_DIRECTION_2LINES;
   hspi1.Init.DataSize = SPI_DATASIZE_16BIT;
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
@@ -262,7 +268,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;

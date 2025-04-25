@@ -1,2 +1,2 @@
-../Core/Src/max6675.c:18:7:Max6675_Read_Temp	16	static
-../Core/Src/max6675.c:31:7:Max6675_Connection_Status	8	static
+../Core/Src/max6675.c:31:7:Max6675_Read_Temp	24	static
+../Core/Src/max6675.c:61:7:Max6675_Connection_Status	8	static
